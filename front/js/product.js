@@ -68,27 +68,49 @@ const connection = fetch ('http://localhost:3000/api/products')
 
         case 2:
             colorOfTheActualProduct.children;
+
                       colorOfTheActualProduct[0].innerHTML=numberOfColors[0];
                       colorOfTheActualProduct[1].innerHTML=numberOfColors[1];
+
+                      // Set the attribute value on each option
+                      colorOfTheActualProduct[0].setAttribute('value',numberOfColors[0]);
+                      colorOfTheActualProduct[1].setAttribute('value',numberOfColors[1]);
+
                     //   Deleted the element unuseful
                       colorOfTheActualProduct[2].remove();
+
                       break;
         case 3:
             
            colorOfTheActualProduct.children;
+
                        colorOfTheActualProduct[0].innerHTML=numberOfColors[0];
                        colorOfTheActualProduct[1].innerHTML=numberOfColors[1];
                        colorOfTheActualProduct[2].innerHTML=numberOfColors[2];
+
+                        // Set the attribute value on each option
+                       colorOfTheActualProduct[0].setAttribute('value',numberOfColors[0]);
+                       colorOfTheActualProduct[1].setAttribute('value',numberOfColors[1]);
+                       colorOfTheActualProduct[2].setAttribute('value',numberOfColors[2]);
+                       
                     break;
         case 4:
        
                       const newOption = document.createElement('option');
-                      colorOfTheActualProduct.appendChild(newOption)
+                      colorOfTheActualProduct.appendChild(newOption);
                       colorOfTheActualProduct.children;
+                      
                       colorOfTheActualProduct[0].innerHTML=numberOfColors[0];
                       colorOfTheActualProduct[1].innerHTML=numberOfColors[1];
                       colorOfTheActualProduct[2].innerHTML=numberOfColors[2];
                       colorOfTheActualProduct[3].innerHTML=numberOfColors[3];
+                    
+                      // Set the attribute value on each option
+                      colorOfTheActualProduct[0].setAttribute('value',numberOfColors[0]);
+                      colorOfTheActualProduct[1].setAttribute('value',numberOfColors[1]);
+                      colorOfTheActualProduct[2].setAttribute('value',numberOfColors[2]);
+                      colorOfTheActualProduct[3].setAttribute('value',numberOfColors[3]);
+
                       break;
                       
         default:
