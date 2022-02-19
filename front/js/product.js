@@ -92,7 +92,7 @@ const connection = fetch ('http://localhost:3000/api/products')
                        colorOfTheActualProduct[0].setAttribute('value',numberOfColors[0]);
                        colorOfTheActualProduct[1].setAttribute('value',numberOfColors[1]);
                        colorOfTheActualProduct[2].setAttribute('value',numberOfColors[2]);
-                       
+
                     break;
         case 4:
        
@@ -116,3 +116,23 @@ const connection = fetch ('http://localhost:3000/api/products')
         default:
              console.log('Data recovery failed, please check the configuration of the condition');
       }
+      // End Insert the right color according to the number of values present on the array
+
+      const tagSelect = document.querySelector('select');
+      const addToCart = document.querySelector('#addToCart');
+      const quantity = document.querySelector('#quantity');
+
+   
+    //   Save color and number of articles in localStorage
+      addToCart.addEventListener('click', () =>{
+          
+         localStorage.setItem('color', tagSelect[tagSelect.selectedIndex].text);
+         localStorage.setItem('numberOfArticles',quantity.value);
+         localStorage.setItem('id_Of_The_Product',search_params.get('id'));
+         localStorage.setItem('img_Of_The_Product',search_params.get('img'));
+       
+       })
+
+ 
+        
+    
