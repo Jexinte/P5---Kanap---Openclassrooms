@@ -1,5 +1,7 @@
+
+
 // API REQUEST
-const connection = fetch ('http://localhost:3000/api/products')
+const CONNECTION = fetch ('http://localhost:3000/api/products')
 
 /* *********CONNECTION*********** */
 .then((response) => {
@@ -9,7 +11,7 @@ const connection = fetch ('http://localhost:3000/api/products')
     }
     
     else{
-        console.log('Connection failed');
+        console.log('connection failed');
     }
     
 })
@@ -17,36 +19,36 @@ const connection = fetch ('http://localhost:3000/api/products')
 /* ********END OF CONNECTION*********** */
 
 
-    const search_params = new URLSearchParams(window.location.search);
+    const SEARCH_PARAMS = new URLSearchParams(window.location.search);
     
     
     // In case of the paramaters exists 
     if(
-    search_params.has('name') && 
-    search_params.has('price')&& 
-    search_params.has('description')&&
-    search_params.has('img') && search_params.has('colors'))
+    SEARCH_PARAMS.has('name') && 
+    SEARCH_PARAMS.has('price')&& 
+    SEARCH_PARAMS.has('description')&&
+    SEARCH_PARAMS.has('img') && SEARCH_PARAMS.has('colors'))
     {
 
         // This allow to recover the value of each paramaters
-        const name = search_params.get('name');
-        const price = search_params.get('price');
-        const description = search_params.get('description');
-        const img = search_params.get('img');
+        const name = SEARCH_PARAMS.get('name');
+        const price = SEARCH_PARAMS.get('price');
+        const description = SEARCH_PARAMS.get('description');
+        const img = SEARCH_PARAMS.get('img');
 
         
         // Targeting Items
-        const titleOfTheActualProduct = document.querySelector(".item__content__titlePrice > #title");
-        const priceOfTheActualProduct = document.querySelector(" .item__content__titlePrice #price");
-        const descriptionOfTheActualProduct = document.querySelector('.item__content__description #description');
-        const imgOfTheActualProduct = document.querySelector(".item__img > img");
+        const TITLEOFTHEACTUALPRODUCT = document.querySelector(".item__content__titlePrice > #title");
+        const PRICEOFTHEACTUALPRODUCT = document.querySelector(" .item__content__titlePrice #price");
+        const DESCRIPTIONOFTHEACTUALPRODUCT = document.querySelector('.item__content__description #description');
+        const IMGOFTHEACTUALPRODUCT = document.querySelector(".item__img > img");
         
     
         // Insert of parameters value in all targets selectors
-        titleOfTheActualProduct.innerHTML=name;
-        priceOfTheActualProduct.innerHTML =price;
-        descriptionOfTheActualProduct.innerHTML = description;
-        imgOfTheActualProduct.src=img;
+        TITLEOFTHEACTUALPRODUCT.innerHTML=name;
+        PRICEOFTHEACTUALPRODUCT.innerHTML =price;
+        DESCRIPTIONOFTHEACTUALPRODUCT.innerHTML = description;
+        IMGOFTHEACTUALPRODUCT.src=img;
     }
 
     else
@@ -55,10 +57,10 @@ const connection = fetch ('http://localhost:3000/api/products')
     }
 
      // Targeting Items
-    const colorOfTheActualProduct = document.querySelector(".item__content__settings__color #colors");
+    const COLOROFTHEACTUALPRODUCT = document.querySelector(".item__content__settings__color #colors");
 
     // Recover the parameter values in the query string
-    const color_options = search_params.get('colors');
+    const color_options = SEARCH_PARAMS.get('colors');
     // Split the parameter values in unique values
     let numberOfColors = color_options.split(',');
     
@@ -67,49 +69,49 @@ const connection = fetch ('http://localhost:3000/api/products')
     {
 
         case 2:
-            colorOfTheActualProduct.children;
+            COLOROFTHEACTUALPRODUCT.children;
 
-                      colorOfTheActualProduct[0].innerHTML=numberOfColors[0];
-                      colorOfTheActualProduct[1].innerHTML=numberOfColors[1];
+                      COLOROFTHEACTUALPRODUCT[0].innerHTML=numberOfColors[0];
+                      COLOROFTHEACTUALPRODUCT[1].innerHTML=numberOfColors[1];
 
                       // Set the attribute value on each option
-                      colorOfTheActualProduct[0].setAttribute('value',numberOfColors[0]);
-                      colorOfTheActualProduct[1].setAttribute('value',numberOfColors[1]);
+                      COLOROFTHEACTUALPRODUCT[0].setAttribute('value',numberOfColors[0]);
+                      COLOROFTHEACTUALPRODUCT[1].setAttribute('value',numberOfColors[1]);
 
                     //   Deleted the element unuseful
-                      colorOfTheActualProduct[2].remove();
+                      COLOROFTHEACTUALPRODUCT[2].remove();
 
                       break;
         case 3:
             
-           colorOfTheActualProduct.children;
+           COLOROFTHEACTUALPRODUCT.children;
 
-                       colorOfTheActualProduct[0].innerHTML=numberOfColors[0];
-                       colorOfTheActualProduct[1].innerHTML=numberOfColors[1];
-                       colorOfTheActualProduct[2].innerHTML=numberOfColors[2];
+                       COLOROFTHEACTUALPRODUCT[0].innerHTML=numberOfColors[0];
+                       COLOROFTHEACTUALPRODUCT[1].innerHTML=numberOfColors[1];
+                       COLOROFTHEACTUALPRODUCT[2].innerHTML=numberOfColors[2];
 
                         // Set the attribute value on each option
-                       colorOfTheActualProduct[0].setAttribute('value',numberOfColors[0]);
-                       colorOfTheActualProduct[1].setAttribute('value',numberOfColors[1]);
-                       colorOfTheActualProduct[2].setAttribute('value',numberOfColors[2]);
+                       COLOROFTHEACTUALPRODUCT[0].setAttribute('value',numberOfColors[0]);
+                       COLOROFTHEACTUALPRODUCT[1].setAttribute('value',numberOfColors[1]);
+                       COLOROFTHEACTUALPRODUCT[2].setAttribute('value',numberOfColors[2]);
 
                     break;
         case 4:
        
                       const newOption = document.createElement('option');
-                      colorOfTheActualProduct.appendChild(newOption);
-                      colorOfTheActualProduct.children;
+                      COLOROFTHEACTUALPRODUCT.appendChild(newOption);
+                      COLOROFTHEACTUALPRODUCT.children;
                       
-                      colorOfTheActualProduct[0].innerHTML=numberOfColors[0];
-                      colorOfTheActualProduct[1].innerHTML=numberOfColors[1];
-                      colorOfTheActualProduct[2].innerHTML=numberOfColors[2];
-                      colorOfTheActualProduct[3].innerHTML=numberOfColors[3];
+                      COLOROFTHEACTUALPRODUCT[0].innerHTML=numberOfColors[0];
+                      COLOROFTHEACTUALPRODUCT[1].innerHTML=numberOfColors[1];
+                      COLOROFTHEACTUALPRODUCT[2].innerHTML=numberOfColors[2];
+                      COLOROFTHEACTUALPRODUCT[3].innerHTML=numberOfColors[3];
                     
                       // Set the attribute value on each option
-                      colorOfTheActualProduct[0].setAttribute('value',numberOfColors[0]);
-                      colorOfTheActualProduct[1].setAttribute('value',numberOfColors[1]);
-                      colorOfTheActualProduct[2].setAttribute('value',numberOfColors[2]);
-                      colorOfTheActualProduct[3].setAttribute('value',numberOfColors[3]);
+                      COLOROFTHEACTUALPRODUCT[0].setAttribute('value',numberOfColors[0]);
+                      COLOROFTHEACTUALPRODUCT[1].setAttribute('value',numberOfColors[1]);
+                      COLOROFTHEACTUALPRODUCT[2].setAttribute('value',numberOfColors[2]);
+                      COLOROFTHEACTUALPRODUCT[3].setAttribute('value',numberOfColors[3]);
 
                       break;
                       
@@ -118,21 +120,44 @@ const connection = fetch ('http://localhost:3000/api/products')
       }
       // End Insert the right color according to the number of values present on the array
 
-      const tagSelect = document.querySelector('select');
-      const addToCart = document.querySelector('#addToCart');
-      const quantity = document.querySelector('#quantity');
 
-   
-    //   Save color and number of articles in localStorage
-      addToCart.addEventListener('click', () =>{
-          
-         localStorage.setItem('color', tagSelect[tagSelect.selectedIndex].text);
-         localStorage.setItem('numberOfArticles',quantity.value);
-         localStorage.setItem('id_Of_The_Product',search_params.get('id'));
-         localStorage.setItem('img_Of_The_Product',search_params.get('img'));
-       
-       })
+/* *********LOCALSTORAGE*********** */
 
- 
-        
+
+const TAGSELECT = document.querySelector('select');
+const ADDTOCART = document.querySelector('#addToCart');
+const QUANTITY = document.querySelector('#quantity');
+
+ADDTOCART.addEventListener('click',()=>{
+    // ALLOW TO GET THE VALUE OF THE KEY
+    let getMyProducts =localStorage.getItem('produits');
     
+    let products;
+// NO VALUES ON 'produits" KEY ADD AN EMPTY ARRAY TO products
+    if(getMyProducts === null)
+    {
+        products = [];
+    }
+     else{
+         products = JSON.parse(getMyProducts);
+     }
+     let testedValue = products.find(element => element.id === SEARCH_PARAMS.get('id') && TAGSELECT[TAGSELECT.selectedIndex].text === element.colors );
+     if(testedValue){
+     
+     testedValue.quantity++;
+   
+     }
+
+    
+
+
+     products.push({id:SEARCH_PARAMS.get('id'),colors:TAGSELECT[TAGSELECT.selectedIndex].text,quantity:QUANTITY.value});
+
+    
+
+     localStorage.setItem('produits',JSON.stringify(products));
+   
+})
+
+
+

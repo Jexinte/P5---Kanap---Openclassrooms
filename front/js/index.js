@@ -1,5 +1,5 @@
 // API REQUEST
-const connection = fetch ('http://localhost:3000/api/products')
+const CONNECTION = fetch ('http://localhost:3000/api/products')
 
 /* *********CONNECTION*********** */
 .then((response) => {
@@ -16,68 +16,66 @@ const connection = fetch ('http://localhost:3000/api/products')
 
 /* ********END OF CONNECTION*********** */
 
-.then((jsonArray)=>{
+.then((jsonObject)=>{
 
     // Remove the first link replaced later
-    const firstLink = document.querySelector("#items > a");
-    firstLink.remove();
+    const FIRSTLINK = document.querySelector("#items > a");
+    FIRSTLINK.remove();
     
     
    
-    // Built for create new element
+    // Built to create new element
     function ourData(data_json)
     {
 
         // Loop to get all json elements
-            for(let i = 0; i < data_json.length; i++)
+            for(const DATA of data_json)
             {
                 
                 // Targeting
-                const targetingItems = document.getElementById('items');
+                const TARGETINGITEMS = document.getElementById('items');
                 
                 // Creating Elements
                 
-                const createImgProduct = document.createElement('img');
-                const createTitleProduct = document.createElement('h3');
-                const createParagraphProduct = document.createElement('p');
-                const creatingALink = document.createElement('a');
-                const createArticle = document.createElement('article');
+                const CREATEIMGPRODUCT = document.createElement('img');
+                const CREATETITLEPRODUCT = document.createElement('h3');
+                const CREATEPARAGRAPHPRODUCT = document.createElement('p');
+                const CREATINGALINK = document.createElement('a');
+                const CREATEARTICLE = document.createElement('article');
 
                 
                 
                 // Nesting elements
-                targetingItems.appendChild(creatingALink);
-                creatingALink.appendChild(createArticle);
-                createArticle.appendChild(createImgProduct);
-                createArticle.appendChild(createTitleProduct);
-                createArticle.appendChild(createParagraphProduct);
+                TARGETINGITEMS.appendChild(CREATINGALINK);
+                CREATINGALINK.appendChild(CREATEARTICLE);
+                CREATEARTICLE.appendChild(CREATEIMGPRODUCT);
+                CREATEARTICLE.appendChild(CREATETITLEPRODUCT);
+                CREATEARTICLE.appendChild(CREATEPARAGRAPHPRODUCT);
 
                 // Giving a classname to some elements created before
-                createTitleProduct.className = "productName";
-                createParagraphProduct.className = "productDescription";
+                CREATETITLEPRODUCT.className = "productName";
+                CREATEPARAGRAPHPRODUCT.className = "productDescription";
 
                 // Insert of all products on homepage
                 
-                createImgProduct.src = `${data_json[i].imageUrl}`;
-                createImgProduct.alt = `${data_json[i].altTxt}`;
-                createTitleProduct.innerHTML = `${data_json[i].name}`;
-                createParagraphProduct.innerHTML = `${data_json[i].description}`;
+                CREATEIMGPRODUCT.src = `${DATA.imageUrl}`;
+                CREATEIMGPRODUCT.alt = `${DATA.altTxt}`;
+                CREATETITLEPRODUCT.innerHTML = `${DATA.name}`;
+                CREATEPARAGRAPHPRODUCT.innerHTML = `${DATA.description}`;
 
                 // This is made to recover a single product for each link on product page
-                creatingALink.href = "./product.html?id="+`${data_json[i]._id}`+"&"+"name="+
-                `${data_json[i].name}`+"&"+
-                "price="+`${data_json[i].price}`+"&"+"description="+
-                `${data_json[i].description}`+"&"+
-                "img="+`${data_json[i].imageUrl}`+"&"+
-                "colors="+`${data_json[i].colors}`;
+                CREATINGALINK.href = "./product.html?id="+`${DATA._id}`+"&"+"name="+
+                `${DATA.name}`+"&"+
+                "price="+`${DATA.price}`+"&"+"description="+
+                `${DATA.description}`+"&"+
+                "img="+`${DATA.imageUrl}`+"&"+
+                "colors="+`${DATA.colors}`;
                 
-            
             }
-
     }
 
   
-    ourData(jsonArray);
+    ourData(jsonObject);
         
     })
     
