@@ -138,26 +138,36 @@ ADDTOCART.addEventListener('click',()=>{
     {
         products = [];
     }
-     else{
-         products = JSON.parse(getMyProducts);
-     }
-     let testedValue = products.find(element => element.id === SEARCH_PARAMS.get('id') && TAGSELECT[TAGSELECT.selectedIndex].text === element.colors );
-     if(testedValue){
-     
-     testedValue.quantity++;
+    else{
+          products = JSON.parse(getMyProducts);
+          
+      }
+
+
+
+
+     let testOfValue = products.find(element => element.id === SEARCH_PARAMS.get('id') && TAGSELECT[TAGSELECT.selectedIndex].text === element.colors );
    
+     // CHECK IF VALUE ALREADY EXIST THEN JUST UPDATE THE QUANTITY 
+     if(testOfValue)
+     {
+        testOfValue.quantity++;
      }
-
-    
-
-
-     products.push({id:SEARCH_PARAMS.get('id'),colors:TAGSELECT[TAGSELECT.selectedIndex].text,quantity:QUANTITY.value});
-
+     // THE TOTALS OF PRODUCTS IS LIMITED TO 20 ABOVE IT PRODUCTS ARE DELETED
+     else if (products.length > 20)
+     {
+        delete products;
+     }
+     // AS THE PRODUCT HAVE A DIFFERENT ID AND DIFFERENT COLOR ADD IT TO THE CART
+     else{
+         alert("Vos articles ont été ajoutés dans le panier !")
+        products.push({id:SEARCH_PARAMS.get('id'),colors:TAGSELECT[TAGSELECT.selectedIndex].text,quantity:QUANTITY.value});
+     }
     
 
      localStorage.setItem('produits',JSON.stringify(products));
-   
-})
 
+})
+/* ********* END OF LOCALSTORAGE *********** */
 
 
