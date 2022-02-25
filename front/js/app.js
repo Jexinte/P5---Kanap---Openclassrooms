@@ -63,14 +63,8 @@ const CONNECTION = fetch ('http://localhost:3000/api/products')
                 CREATEPARAGRAPHPRODUCT.innerHTML = `${DATA.description}`;
 
                 // This is made to recover a single product for each link on product page
-                CREATINGALINK.href = `./product.html?id=${DATA._id}
-                &name=${DATA.name}
-                &price=${DATA.price}
-                &description=${DATA.description}
-                &img=${DATA.imageUrl}
-                &colors=${DATA.colors}`;
+                CREATINGALINK.href = `./product.html?id=${DATA._id}`;
                 
             }
 
     })
-    
