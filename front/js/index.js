@@ -25,11 +25,10 @@ const CONNECTION = fetch ('http://localhost:3000/api/products')
     
    
     // Built to create new element
-    function ourData(data_json)
-    {
+   
 
         // Loop to get all json elements
-            for(const DATA of data_json)
+            for(const DATA of jsonObject)
             {
                 
                 // Targeting
@@ -64,18 +63,14 @@ const CONNECTION = fetch ('http://localhost:3000/api/products')
                 CREATEPARAGRAPHPRODUCT.innerHTML = `${DATA.description}`;
 
                 // This is made to recover a single product for each link on product page
-                CREATINGALINK.href = "./product.html?id="+`${DATA._id}`+"&"+"name="+
-                `${DATA.name}`+"&"+
-                "price="+`${DATA.price}`+"&"+"description="+
-                `${DATA.description}`+"&"+
-                "img="+`${DATA.imageUrl}`+"&"+
-                "colors="+`${DATA.colors}`;
+                CREATINGALINK.href = `./product.html?id=${DATA._id}
+                &name=${DATA.name}
+                &price=${DATA.price}
+                &description=${DATA.description}
+                &img=${DATA.imageUrl}
+                &colors=${DATA.colors}`;
                 
             }
-    }
 
-  
-    ourData(jsonObject);
-        
     })
     
