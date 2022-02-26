@@ -28,33 +28,36 @@ const priceOfTheProduct = document.querySelector('.item__content__titlePrice  p 
 const descriptionOfTheProduct = document.querySelector('.item__content__description__title +  #description');
 const colorOfTheProduct = document.querySelector(".item__content__settings__color #colors");
 
+// Targeting All Option of Select Tag
+const colorOfTheProductOptions = document.querySelectorAll('.item__content__settings__color #colors option');
+
+// Remove previous options of Select Tag
+for (let i = 0; i < colorOfTheProductOptions.length; i++){
+    colorOfTheProductOptions[i].remove();
+}
 
 
 
-// Loop through JSON file
+// Loop through all products
 for(const product of myProduct )
 {
-    // If the id match with the paramater then it give is associated informations
-    if(product._id === search_Params.get('id')){
-  
-
+    // If the product id match with the paramater value then give the right informations associated with
+    if(product._id === search_Params.get('id'))
+    {
         imgOfTheProduct.src = product.imageUrl;
         titleOfTheProduct.innerHTML = product.name;
         priceOfTheProduct.innerHTML = product.price;
         descriptionOfTheProduct.innerHTML = product.description;
-
-
-        product.colors.forEach((element,index) => {
-            
-            colorOfTheProduct[index].innerHTML=element;
-            colorOfTheProduct[index].setAttribute('value',element);
-            
+        
+// As previous <option> were deleted we create new ones and insert each color on it
+        product.colors.forEach(element =>
+        {
+            const newOptions = document.createElement('option');
+            colorOfTheProduct.appendChild(newOptions);
+            newOptions.innerHTML=element;
+            newOptions.setAttribute('value',element);
         });
     }
-
-    
-  
-    
 
 }
 
