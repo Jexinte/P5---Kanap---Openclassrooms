@@ -27,7 +27,6 @@ const titleOfTheProduct = document.querySelector('.item__content__titlePrice > #
 const priceOfTheProduct = document.querySelector('.item__content__titlePrice  p > #price');
 const descriptionOfTheProduct = document.querySelector('.item__content__description__title +  #description');
 const colorOfTheProduct = document.querySelector(".item__content__settings__color #colors");
-
 // Targeting All Option of Select Tag
 const colorOfTheProductOptions = document.querySelectorAll('.item__content__settings__color #colors option');
 
@@ -59,6 +58,42 @@ for(const product of myProduct )
         });
     }
 
+
 }
 
+// Targeting HTML TAGS
+
+const addToCart = document.querySelector('#addToCart');
+const quantity = document.querySelector('#quantity');
+addToCart.addEventListener('click',()=>{
+
+    let getMyProducts = localStorage.getItem('Produits');
+    let products;
+    // As getMyProducts have no values on it return an empty array
+    if(getMyProducts === null){
+        products = [];
+    }
+
+    // Then parse all values that gonna be inside the array
+    else{
+        products = JSON.parse(getMyProducts);
+    }
+
+    const InCaseOfSameValues = products.find(element => element.id === search_Params.get('id') && colorOfTheProduct[colorOfTheProduct.selectedIndex].text === element.colors);
+     if(InCaseOfSameValues){
+     InCaseOfSameValues.quantity++;
+     }
+     else if (quantity.value <= 0 || quantity.value > 100){
+         alert("Veuillez saisir un nombre d'articles entre 1 et 100");
+     
+     } 
+     else {
+
+        
+      products.push({id:search_Params.get('id'),colors:colorOfTheProduct[colorOfTheProduct.selectedIndex].text,quantity:quantity.value});    
+
+     }
+     localStorage.setItem('Produits',JSON.stringify(products));
+
+})
 })
