@@ -1,8 +1,8 @@
-// API REQUEST
-const CONNECTION = fetch ('http://localhost:3000/api/products')
+
+const connection = fetch ('http://localhost:3000/api/products')
 
 /* *********CONNECTION*********** */
-.then((response) => {
+connection.then((response) => {
     
     if(response.ok){
         return response.json();

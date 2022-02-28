@@ -1,6 +1,6 @@
 
+/* *********CONNECTION*********** */
 
-// API REQUEST
 const connection = fetch ('http://localhost:3000/api/products')
 
 // 
@@ -17,7 +17,7 @@ connection.then(response =>
         console.log('Connexion to the API failed !')
     }
 })
-
+/* ********END OF CONNECTION*********** */
 
 .then(myProduct =>
 {
@@ -103,6 +103,7 @@ connection.then(response =>
         } 
         else
         {
+            alert('Votre article a bien été ajouté au panier !');
             products.push({id:search_Params.get('id'),colors:colorOfTheProduct[colorOfTheProduct.selectedIndex].text,quantity:quantity.value});   
         }
             
