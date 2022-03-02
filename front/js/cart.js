@@ -24,28 +24,35 @@ connection.then((response) => {
 
       const conversion = JSON.parse(myCart);
 
+       // Main Structure of Each 
       const cart__Item = document.querySelector('.cart__item');
       
-      // Main Structure of Each 
+     
       const cart__Items = document.querySelector('#cart__items');
 
-      //
+      // Delete the first article structure 
       cart__Item.remove();
 
-      /* ******** INSERTOFPRODUCTS *********** */
-      function InsertOfProducts()
-      {
+/* ******** INSERTOFPRODUCTS *********** */
+function insertOfProducts()
+{
       
       conversion.forEach(storageData =>
       {
             // Convert quantity value on localstorage to integer
             const parse_Quantity = parseInt(storageData.quantity);
             
-            myProducts.forEach(ApiData =>
-            {
-                  if(storageData.id === ApiData._id)
+           // Store API DATA
+           let jsonData = myProducts;
+      
+           // Compare the id of each cart product with the id store in API DATA
+          const inCaseOfSameData = jsonData.find(element => storageData.id === element._id);
+         
+            
+                  // ID MATCH CREATE STRUCTURE OF EACH PRODUCT AND INSERT THEM WITH INFORMATIONS ASSOCIATED WITH
+                  if(inCaseOfSameData)
                   {
-                        const parse_Price = parseInt(ApiData.price);
+                        
                         
                         // ARTICLE PART
 
@@ -67,8 +74,8 @@ connection.then((response) => {
 
                         const cart__Item__Img_Tag = document.createElement('img');
                               cart__Item__Img_Main_Structure.appendChild(cart__Item__Img_Tag);
-                              cart__Item__Img_Tag.src=`${ApiData.imageUrl}`;
-                              cart__Item__Img_Tag.setAttribute('alt',`${ApiData.altTxt}`);
+                              cart__Item__Img_Tag.src=`${inCaseOfSameData.imageUrl}`;
+                              cart__Item__Img_Tag.setAttribute('alt',`${inCaseOfSameData.altTxt}`);
 
                         // CONTENT PART
 
@@ -86,7 +93,7 @@ connection.then((response) => {
 
                         const cart__Item__Content__Description_Title_Structure = document.createElement('h2');
                               cart__Item__Content_Description_Structure.appendChild(cart__Item__Content__Description_Title_Structure);
-                              cart__Item__Content__Description_Title_Structure.innerHTML=`${ApiData.name}`;
+                              cart__Item__Content__Description_Title_Structure.innerHTML=`${inCaseOfSameData.name}`;
 
                         const cart__Item__Content_Description_First_Paragraph_Structure = document.createElement('p');
                               cart__Item__Content_Description_Structure.appendChild(cart__Item__Content_Description_First_Paragraph_Structure);
@@ -94,7 +101,7 @@ connection.then((response) => {
 
                         const cart__Item__Content_Description_Second_Paragraph_Structure = document.createElement('p');
                               cart__Item__Content_Description_Structure.appendChild(cart__Item__Content_Description_Second_Paragraph_Structure);
-                              cart__Item__Content_Description_Second_Paragraph_Structure.innerHTML = `${parse_Price} €`;
+                              cart__Item__Content_Description_Second_Paragraph_Structure.innerHTML = `${inCaseOfSameData.price} €`;
 
                         // END OF DELETE BUTTON
 
@@ -139,36 +146,52 @@ connection.then((response) => {
                               delete_Item.innerHTML = "Supprimer";
 
                         // END OF DELETE BUTTON
+                       
                   }
-            });
       });
-      }
 
-      InsertOfProducts();
-      /* ********END OF INSERTOFPRODUCTS *********** */
+}
 
-     
-      // Add up the quantity of each product store in the localStorage
-      function calculateOfTotalQuantityOfAllProducts()
-      {
+insertOfProducts();
+/* ********END OF INSERTOFPRODUCTS *********** */
 
-      const quantityOfAllProducts = localStorage.getItem('Produits');
-      const quantity = JSON.parse(quantityOfAllProducts);
-      const totalQuantity = document.querySelector('#totalQuantity');
 
-            let total = 0;
 
-            for (const i of quantity)
-            {
-                  // Convert string to data 
-                  let quantityParse = parseInt(i.quantity);
-                  // Save total amount
-                  total += quantityParse;
+/* ******** CALCULATEOFTOTALQUANTITYOFALLPRODUCTS *********** */
+
+
+
+
+// Add up the quantity of each product store in the localStorage
+function calculateOfTotalQuantityOfAllProducts()
+{
+
+            const quantityOfAllProducts = localStorage.getItem('Produits');
+            const quantity = JSON.parse(quantityOfAllProducts);
+            const totalQuantity = document.querySelector('#totalQuantity');
+
+                  let total = 0;
+
+                  for (const i of quantity)
+                  {
+                        // Convert string quantity to integer 
+                        let quantityParse = parseInt(i.quantity);
+                        // Save total amount
+                        total += quantityParse;
+                        
+                  }
+                  // When the calculation is over display it
                   totalQuantity.innerHTML =total;
-            }
       }
       calculateOfTotalQuantityOfAllProducts();
-            
+
+/* ******** END OF CALCULATEOFTOTALQUANTITYOFALLPRODUCTS *********** */     
+
+
+
+
+/* ******** CALCULATEOFTOTALPRICEOFALLPRODUCTS *********** */
+
       // Add up the price of each product 
       function calculateOfTotalPriceOfAllProducts()
       {
@@ -176,17 +199,23 @@ connection.then((response) => {
             const totalPrice = document.querySelector('#totalPrice');
             const quantityOfEachProduct = document.querySelector('.itemQuantity');
             
+            
             let total = 0;
             for (const i of price)
             {
+                   // Convert it to integer 
                   const priceOfEachProduct = parseInt(i.textContent);
+                  
                   // Save total amount
                   total += priceOfEachProduct * quantityOfEachProduct.value;
-                  totalPrice.innerHTML = total;
+                 
             }
+            // When the calculation is over display it
+            totalPrice.innerHTML = total;
       }
-      calculateOfTotalPriceOfAllProducts()
+      calculateOfTotalPriceOfAllProducts();
 
+/* ******** END OF CALCULATEOFTOTALPRICEOFALLPRODUCTS *********** */
 
 })
 

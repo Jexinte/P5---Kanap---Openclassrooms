@@ -69,46 +69,66 @@ connection.then(response =>
 
     const addToCart = document.querySelector('#addToCart');
     const quantity = document.querySelector('#quantity');
+    
     addToCart.addEventListener('click',() =>
     {
+        if (quantity.value > 0 && quantity.value <= 100)
+        {
 
-        let getMyProducts = localStorage.getItem('Produits');
-        let products;
         
-        // As getMyProducts have no values on it return an empty array
-        if(getMyProducts === null)
-        {
-            products = [];
-        }
+            let getMyProducts = localStorage.getItem('Produits');
+            let products;
+            
+            // As getMyProducts have no values on it return an empty array
+            if(getMyProducts === null)
+            {
+                products = [];
+            }
 
-        // Then parse all values that gonna be inside the array
-        else
-        {
-            products = JSON.parse(getMyProducts);
-        }
+            // Then parse all values that gonna be inside the array
+            else
+            {
+                products = JSON.parse(getMyProducts);
+            }
+        
 
         // If the identifier and the color are the same
-        const InCaseOfSameValues = products.find(element => element.id === search_Params.get('id') && colorOfTheProduct[colorOfTheProduct.selectedIndex].text === element.colors);
+        const InCaseOfSameValues = products.find(element => element.id === search_Params.get('id') 
+        && colorOfTheProduct[colorOfTheProduct.selectedIndex].text === element.colors);
 
-        // Then update the quantity in the cart 
+      
         if(InCaseOfSameValues)
         {
-        InCaseOfSameValues.quantity++;
-        }
+              
+            // Increment the quantity if the number of articles is lower than 100
+            if(InCaseOfSameValues.quantity < 100)
+            {
+                alert('Votre article a bien été ajouté au panier !');
+                   // Then update the quantity in the cart 
+                InCaseOfSameValues.quantity++;
+                
+            }
 
-    
-        else if (quantity.value <= 0 || quantity.value > 100)
+        else{
+                alert("Le nombre d'articles a été atteint !");
+            }
+    }
+
+        else
         {
-            alert("Veuillez saisir un nombre d'articles entre 1 et 100 !");
+        products.push({id:search_Params.get('id'),colors:colorOfTheProduct[colorOfTheProduct.selectedIndex].text,quantity:quantity.value});
+        }
+       
+          
+           
+            localStorage.setItem('Produits',JSON.stringify(products));
+            // Once the product is add , empty 
+            //  products = [];
         } 
         else
         {
-            alert('Votre article a bien été ajouté au panier !');
-            products.push({id:search_Params.get('id'),colors:colorOfTheProduct[colorOfTheProduct.selectedIndex].text,quantity:quantity.value});   
+            alert("Veuillez saisir un nombre d'articles entre 1 et 100 !");
         }
-            
-    
-        localStorage.setItem('Produits',JSON.stringify(products));
 
     })
 })
