@@ -34,7 +34,7 @@ connection.then((response) => {
       cart__Item.remove();
 
 /* ******** INSERTOFPRODUCTS *********** */
-function insertOfProducts()
+ const insertOfProducts =  function insertOfProducts()
 {
       
       conversion.forEach(storageData =>
@@ -148,11 +148,16 @@ function insertOfProducts()
                         // END OF DELETE BUTTON
                        
                   }
+
+                  else {
+                        console.log('Le panier est vide');
+                  }
+                  
       });
 
 }
-
 insertOfProducts();
+
 /* ********END OF INSERTOFPRODUCTS *********** */
 
 
@@ -163,7 +168,7 @@ insertOfProducts();
 
 
 // Add up the quantity of each product store in the localStorage
-function calculateOfTotalQuantityOfAllProducts()
+const calculateOfTotalQuantityOfAllProducts =  function ()
 {
 
             const quantityOfAllProducts = localStorage.getItem('Produits');
@@ -193,7 +198,7 @@ function calculateOfTotalQuantityOfAllProducts()
 /* ******** CALCULATEOFTOTALPRICEOFALLPRODUCTS *********** */
 
       // Add up the price of each product 
-      function calculateOfTotalPriceOfAllProducts()
+      const calculateOfTotalPriceOfAllProducts  = function () 
       {
             const price = document.querySelectorAll('.cart__item__content__description > p + p');
             const totalPrice = document.querySelector('#totalPrice');
@@ -217,7 +222,83 @@ function calculateOfTotalQuantityOfAllProducts()
 
 /* ******** END OF CALCULATEOFTOTALPRICEOFALLPRODUCTS *********** */
 
-})
+
+/* ******** UPDATE QUANTITY *********** */
+
+// Targeting arrays
+let inputQuantity = document.querySelectorAll('.itemQuantity');
+let localStorageProducts = localStorage.getItem('Produits');
+
+
+for (let i = 0; i < inputQuantity.length; i++)
+{
+
+      // Link to the right article
+      let myActualQuantity = inputQuantity[i].closest('article');
+      let getStorageProducts = JSON.parse(localStorageProducts);
+     
+      myActualQuantity.addEventListener("change",() =>
+      {
+                  // Loop throught localStorage 
+                  getStorageProducts.forEach(products =>
+                  {
+                        
+                              // Matches 
+                        if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value <= 100)
+                        {     // Update the quantity
+                              products.quantity = inputQuantity[i].value;   
+                        }
+                        else if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value > 100){
+                           alert('Veuillez saisir une quantité entre 1 et 100');
+                        } 
+                        // Then store it in the localStorage
+                        localStorage.setItem('Produits',JSON.stringify(getStorageProducts));
+                       
+                  })
+                  //   END OF THE SECOND LOOP
+      })
+}
+/* ******** END OF UPDATE QUANTITY *********** */
+
+
+/* ******** DELETE PRODUCTS *********** */
+
+ // Targeting arrays
+ let deleteButton = document.querySelectorAll('.deleteItem');
+ let localStorageProducts2 = localStorage.getItem('Produits');
+
+
+ for (let i = 0; i < deleteButton.length; i++)
+ {
+       let buttons = deleteButton[i];
+       // Link to the right article
+       let myActualPrice = deleteButton[i].closest('article');
+       let getStorageProducts2 = JSON.parse(localStorageProducts2);
+     
+       buttons.addEventListener("click",() =>
+       {
+                   // Loop throught localStorage 
+                   getStorageProducts2.forEach(products2 =>
+                   {                     
+                               // Matches 
+                         if(products2.id === myActualPrice.dataset.id && products2.colors === myActualPrice.dataset.color)
+                         {   
+                           products2 += myActualPrice.remove();                   
+                         }
+
+                        
+                              
+
+                         // Then store it in the localStorage
+                         localStorage.setItem('Produits',JSON.stringify(getStorageProducts2));                     
+                   })
+                   //   END OF THE SECOND LOOP
+       })
+ }
+/* ******** END OF DELETE PRODUCTS *********** */
+ })
+
+// END OF PROMISE
 
 
 

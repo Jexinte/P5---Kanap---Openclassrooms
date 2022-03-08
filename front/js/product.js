@@ -99,7 +99,7 @@ connection.then(response =>
       
         if(InCaseOfSameValues)
         {
-              
+            
             // Increment the quantity if the number of articles is lower than 100
             if(InCaseOfSameValues.quantity < 100)
             {
@@ -116,6 +116,7 @@ connection.then(response =>
 
         else
         {
+            alert('Votre article a bien été ajouté au panier !');
         products.push({id:search_Params.get('id'),colors:colorOfTheProduct[colorOfTheProduct.selectedIndex].text,quantity:quantity.value});
         }
        
