@@ -205,18 +205,21 @@ const calculateOfTotalQuantityOfAllProducts =  function ()
             const quantityOfEachProduct = document.querySelector('.itemQuantity');
             
             
-            let total = 0;
+            let total2 = 0;
             for (const i of price)
             {
                    // Convert it to integer 
                   const priceOfEachProduct = parseInt(i.textContent);
+                
                   
                   // Save total amount
-                  total += priceOfEachProduct * quantityOfEachProduct.value;
+                  total2 += priceOfEachProduct * quantityOfEachProduct.value;
+                
                  
             }
+            console.log(total2)
             // When the calculation is over display it
-            totalPrice.innerHTML = total;
+            totalPrice.innerHTML = total2;
       }
       calculateOfTotalPriceOfAllProducts();
 
@@ -225,7 +228,6 @@ const calculateOfTotalQuantityOfAllProducts =  function ()
 
 /* ******** UPDATE QUANTITY *********** */
 
-// Targeting arrays
 let inputQuantity = document.querySelectorAll('.itemQuantity');
 let localStorageProducts = localStorage.getItem('Produits');
 
@@ -244,55 +246,68 @@ for (let i = 0; i < inputQuantity.length; i++)
                   {
                         
                               // Matches 
-                        if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value <= 100)
+                        if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value >=1 && inputQuantity[i].value <= 100)
                         {     // Update the quantity
-                              products.quantity = inputQuantity[i].value;   
+                              products.quantity = inputQuantity[i].value;
+                               alert('La quantité a bien été mis à jour !')
+                              
+                               
+                              // calculateOfTotalPriceOfAllProducts();
                         }
                         else if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value > 100){
                            alert('Veuillez saisir une quantité entre 1 et 100');
                         } 
+
+                        // calculateOfTotalQuantityOfAllProducts();                          
                         // Then store it in the localStorage
-                        localStorage.setItem('Produits',JSON.stringify(getStorageProducts));
+                        localStorage.setItem('Produits',JSON.stringify(getStorageProducts));      
+                        
+                          // Update price and quantity
+                        //   calculateOfTotalQuantityOfAllProducts();
+                        //   calculateOfTotalPriceOfAllProducts();
+                         
                        
                   })
+                 
+
+                  
+                 
+                  
                   //   END OF THE SECOND LOOP
       })
+     
 }
+
+
 /* ******** END OF UPDATE QUANTITY *********** */
 
 
 /* ******** DELETE PRODUCTS *********** */
 
- // Targeting arrays
+
  let deleteButton = document.querySelectorAll('.deleteItem');
  let localStorageProducts2 = localStorage.getItem('Produits');
 
 
  for (let i = 0; i < deleteButton.length; i++)
  {
+       // More clear for the syntax
        let buttons = deleteButton[i];
        // Link to the right article
-       let myActualPrice = deleteButton[i].closest('article');
+       let myActualProduct = deleteButton[i].closest('article');
        let getStorageProducts2 = JSON.parse(localStorageProducts2);
      
+       
        buttons.addEventListener("click",() =>
        {
-                   // Loop throught localStorage 
-                   getStorageProducts2.forEach(products2 =>
-                   {                     
-                               // Matches 
-                         if(products2.id === myActualPrice.dataset.id && products2.colors === myActualPrice.dataset.color)
-                         {   
-                           products2 += myActualPrice.remove();                   
-                         }
+            
+            getStorageProducts2 = getStorageProducts2.filter(productsInLocalStorage => productsInLocalStorage.id === myActualProduct.dataset.id && productsInLocalStorage.colors !== myActualProduct.dataset.color);
+      
 
-                        
-                              
-
-                         // Then store it in the localStorage
-                         localStorage.setItem('Produits',JSON.stringify(getStorageProducts2));                     
-                   })
-                   //   END OF THE SECOND LOOP
+            // Update the productsInLocalStorage
+            localStorage.setItem('Produits',JSON.stringify(getStorageProducts2));
+            //  alert('Le produit a bien été supprimé')
+            //   window.location.href="cart.html";
        })
  }
 /* ******** END OF DELETE PRODUCTS *********** */
