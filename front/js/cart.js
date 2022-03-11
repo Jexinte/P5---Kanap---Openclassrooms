@@ -166,8 +166,8 @@ insertOfProducts();
 
 
 
-
-// Add up the quantity of each product store in the localStorage
+let totalQuantityOfProducts = 0;
+// Add up the quantity of each product and update the localStorage
 const calculateOfTotalQuantityOfAllProducts =  function ()
 {
 
@@ -175,49 +175,51 @@ const calculateOfTotalQuantityOfAllProducts =  function ()
             const quantity = JSON.parse(quantityOfAllProducts);
             const totalQuantity = document.querySelector('#totalQuantity');
 
-                  let total = 0;
+                
 
-                  for (const i of quantity)
+                  for (const totalQuantityLocalStorage of quantity)
                   {
                         // Convert string quantity to integer 
-                        let quantityParse = parseInt(i.quantity);
-                        // Save total amount
-                        total += quantityParse;
+                        let quantityOfLocalStorage = parseInt(totalQuantityLocalStorage.quantity);
+                        // Add total amount
+                        totalQuantityOfProducts += quantityOfLocalStorage;
                         
                   }
                   // When the calculation is over display it
-                  totalQuantity.innerHTML =total;
+                  totalQuantity.innerHTML = totalQuantityOfProducts;
       }
-      calculateOfTotalQuantityOfAllProducts();
-
+ 
+     
+      calculateOfTotalQuantityOfAllProducts()   
 /* ******** END OF CALCULATEOFTOTALQUANTITYOFALLPRODUCTS *********** */     
 
 
 
 
 /* ******** CALCULATEOFTOTALPRICEOFALLPRODUCTS *********** */
+let total2 = 0;
 
       // Add up the price of each product 
       const calculateOfTotalPriceOfAllProducts  = function () 
       {
             const price = document.querySelectorAll('.cart__item__content__description > p + p');
             const totalPrice = document.querySelector('#totalPrice');
-            const quantityOfEachProduct = document.querySelector('.itemQuantity');
             
             
-            let total2 = 0;
-            for (const i of price)
+            
+          
+            for (const priceDisplayOnCartPage of price)
             {
+                 
                    // Convert it to integer 
-                  const priceOfEachProduct = parseInt(i.textContent);
-                
+                  let priceOfEachProduct = parseInt(priceDisplayOnCartPage.textContent);
                   
                   // Save total amount
-                  total2 += priceOfEachProduct * quantityOfEachProduct.value;
-                
+                  total2 = priceOfEachProduct * totalQuantityOfProducts;
+                  
                  
             }
-            console.log(total2)
+            
             // When the calculation is over display it
             totalPrice.innerHTML = total2;
       }
@@ -247,70 +249,83 @@ for (let i = 0; i < inputQuantity.length; i++)
                         
                               // Matches 
                         if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value >=1 && inputQuantity[i].value <= 100)
-                        {     // Update the quantity
-                              products.quantity = inputQuantity[i].value;
-                               alert('La quantité a bien été mis à jour !')
+                        {     // Update the quantity                             
+                               products.quantity = inputQuantity[i].value;
+                                alert('La quantité du produit a bien été augmenté !');
+                                 window.location.href="cart.html";  
                               
-                               
-                              // calculateOfTotalPriceOfAllProducts();
+                             
+
                         }
                         else if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value > 100){
                            alert('Veuillez saisir une quantité entre 1 et 100');
                         } 
 
-                        // calculateOfTotalQuantityOfAllProducts();                          
                         // Then store it in the localStorage
-                        localStorage.setItem('Produits',JSON.stringify(getStorageProducts));      
+                        localStorage.setItem('Produits',JSON.stringify(getStorageProducts));
                         
-                          // Update price and quantity
-                        //   calculateOfTotalQuantityOfAllProducts();
-                        //   calculateOfTotalPriceOfAllProducts();
-                         
-                       
                   })
-                 
-
-                  
-                 
-                  
                   //   END OF THE SECOND LOOP
+                 
       })
-     
-}
-
-
-/* ******** END OF UPDATE QUANTITY *********** */
-
-
-/* ******** DELETE PRODUCTS *********** */
-
-
- let deleteButton = document.querySelectorAll('.deleteItem');
- let localStorageProducts2 = localStorage.getItem('Produits');
-
-
- for (let i = 0; i < deleteButton.length; i++)
- {
-       // More clear for the syntax
-       let buttons = deleteButton[i];
-       // Link to the right article
-       let myActualProduct = deleteButton[i].closest('article');
-       let getStorageProducts2 = JSON.parse(localStorageProducts2);
-     
-       
-       buttons.addEventListener("click",() =>
-       {
-            
-            getStorageProducts2 = getStorageProducts2.filter(productsInLocalStorage => productsInLocalStorage.id === myActualProduct.dataset.id && productsInLocalStorage.colors !== myActualProduct.dataset.color);
       
+}
+         
 
-            // Update the productsInLocalStorage
-            localStorage.setItem('Produits',JSON.stringify(getStorageProducts2));
-            //  alert('Le produit a bien été supprimé')
-            //   window.location.href="cart.html";
-       })
- }
-/* ******** END OF DELETE PRODUCTS *********** */
+
+// /* ******** END OF UPDATE QUANTITY *********** */
+
+
+// /* ******** DELETE PRODUCTS *********** */
+
+
+  let deleteButton = document.querySelectorAll('.deleteItem');
+  let localStorageProducts2 = localStorage.getItem('Produits')
+  for (let i = 0; i < deleteButton.length; i++)
+  {
+        // More clear for the syntax
+        let buttons = deleteButton[i];
+        // Link to the right article
+        let myActualProduct = deleteButton[i].closest('article');
+        let getStorageProducts2 = JSON.parse(localStorageProducts2);        
+        buttons.addEventListener("click",() =>
+        {          
+             getStorageProducts2 = getStorageProducts2.filter(productsInLocalStorage => productsInLocalStorage.id === myActualProduct.dataset.id && productsInLocalStorage.colors !== myActualProduct.dataset.color);
+             // Update the productsInLocalStorage
+             localStorage.setItem('Produits',JSON.stringify(getStorageProducts2));
+              myActualProduct.remove()
+               
+        })
+  }
+
+
+
+  
+// /* ******** END OF DELETE PRODUCTS *********** */
+
+// /********* FORMULAIRE *******/
+// const firstName = document.getElementById('firstName');
+// const lastName = document.getElementById('lastName')
+// const address = document.getElementById('address');
+// const city = document.getElementById('city')
+// const email = document.getElementById('email');
+// const submit = document.getElementById('order');
+
+
+// const checkFirstName = function (){
+
+
+//       let testRegex = RegExp("[a-z]{1,10}");
+//        const errorMsg = document.getElementById('firstNameErrorMsg');
+//       if(firstName !== testRegex ){
+//             errorMsg.innerHTML = "Veuillez saisir un prénom valide";
+//       }
+
+     
+// }
+
+// checkFirstName()
+// /**END OF FORMULAIRE */
  })
 
 // END OF PROMISE
