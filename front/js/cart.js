@@ -230,47 +230,51 @@ let total2 = 0;
 
 /* ******** UPDATE QUANTITY *********** */
 
-let inputQuantity = document.querySelectorAll('.itemQuantity');
-let localStorageProducts = localStorage.getItem('Produits');
+/* This function detect if a quantity is changed if yes then it pop up an alert saying that the change made is done and refresh the cart page to update the total */
+const updateQuantity = function() {
+
+      let inputQuantity = document.querySelectorAll('.itemQuantity');
+      let localStorageProducts = localStorage.getItem('Produits');
 
 
-for (let i = 0; i < inputQuantity.length; i++)
-{
-
-      // Link to the right article
-      let myActualQuantity = inputQuantity[i].closest('article');
-      let getStorageProducts = JSON.parse(localStorageProducts);
-     
-      myActualQuantity.addEventListener("change",() =>
+      for (let i = 0; i < inputQuantity.length; i++)
       {
-                  // Loop throught localStorage 
-                  getStorageProducts.forEach(products =>
-                  {
-                        
-                              // Matches 
-                        if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value >=1 && inputQuantity[i].value <= 100)
-                        {     // Update the quantity                             
-                               products.quantity = inputQuantity[i].value;
-                                alert('La quantité du produit a bien été augmenté !');
-                                 window.location.href="cart.html";  
-                              
-                             
 
-                        }
-                        else if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value > 100){
-                           alert('Veuillez saisir une quantité entre 1 et 100');
-                        } 
-
-                        // Then store it in the localStorage
-                        localStorage.setItem('Produits',JSON.stringify(getStorageProducts));
-                        
-                  })
-                  //   END OF THE SECOND LOOP
-                 
-      })
+            // Link to the right article
+            let myActualQuantity = inputQuantity[i].closest('article');
+            let getStorageProducts = JSON.parse(localStorageProducts);
       
-}
-         
+            myActualQuantity.addEventListener("change",() =>
+            {
+                        // Loop throught localStorage 
+                        getStorageProducts.forEach(products =>
+                        {
+                              
+                                    // Matches 
+                              if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value >=1 && inputQuantity[i].value <= 100)
+                              {                              
+                                    products.quantity = inputQuantity[i].value;
+                                    alert('La quantité du produit a bien été augmenté !');
+                                    window.location.href="cart.html";  
+                                    
+                              
+
+                              }
+                              else if(products.id === myActualQuantity.dataset.id && products.colors === myActualQuantity.dataset.color && inputQuantity[i].value > 100){
+                              alert('Veuillez saisir une quantité entre 1 et 100');
+                              } 
+
+                             
+                              localStorage.setItem('Produits',JSON.stringify(getStorageProducts));
+                              
+                        })
+                        //   END OF THE SECOND LOOP
+                  
+            })
+            
+            }
+} 
+updateQuantity()     
 
 
 // /* ******** END OF UPDATE QUANTITY *********** */
@@ -278,29 +282,53 @@ for (let i = 0; i < inputQuantity.length; i++)
 
 // /* ******** DELETE PRODUCTS *********** */
 
+const deleteProduct = function ()
+{
 
-  let deleteButton = document.querySelectorAll('.deleteItem');
-  let localStorageProducts2 = localStorage.getItem('Produits')
-  for (let i = 0; i < deleteButton.length; i++)
-  {
-        // More clear for the syntax
-        let buttons = deleteButton[i];
-        // Link to the right article
-        let myActualProduct = deleteButton[i].closest('article');
-        let getStorageProducts2 = JSON.parse(localStorageProducts2);        
-        buttons.addEventListener("click",() =>
-        {          
-             getStorageProducts2 = getStorageProducts2.filter(productsInLocalStorage => productsInLocalStorage.id === myActualProduct.dataset.id && productsInLocalStorage.colors !== myActualProduct.dataset.color);
-             // Update the productsInLocalStorage
-             localStorage.setItem('Produits',JSON.stringify(getStorageProducts2));
-              myActualProduct.remove()
-               
-        })
-  }
+      let deleteButton = document.querySelectorAll('.deleteItem');
+
+      let localStorageProducts2 = localStorage.getItem('Produits')
+      // Loop to get all buttons
+      for (let i = 0; i < deleteButton.length; i++)
+      {
+            // More clear for the syntax
+            let buttons = deleteButton[i];
+
+            // Link each button to his article
+            let myActualProduct = deleteButton[i].closest('article');
+            let getStorageProducts2 = JSON.parse(localStorageProducts2);   
+        
+           
+            console.log(getStorageProducts2)
+            buttons.addEventListener("click",() =>
+            {    
+                  // Lorsqu'on clique sur le bouton supprimer, il récupère la position de l'index de l'élément ciblé et le supprime
+                  const index = getStorageProducts2.findIndex(object =>{
+                        return object.id === myActualProduct.dataset.id && object.colors === myActualProduct.dataset.color
+                  })
+                   
+                  if(index > -1){
+                        getStorageProducts2.splice(index,1);
+                        
+                  }
+
+                  
+                        alert('Le produit sélectionné a bien été supprimé !') 
+                        myActualProduct.remove();
+                        window.location.href ="cart.html";  
+                        localStorage.setItem('Produits',JSON.stringify(getStorageProducts2));
+                        
+                           
+                             
+            })
+      }
+}
+
+deleteProduct()
 
 
 
-  
+
 // /* ******** END OF DELETE PRODUCTS *********** */
 
 // /********* FORMULAIRE *******/
