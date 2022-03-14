@@ -299,7 +299,7 @@ const deleteProduct = function ()
             let getStorageProducts2 = JSON.parse(localStorageProducts2);   
         
            
-            console.log(getStorageProducts2)
+            
             buttons.addEventListener("click",() =>
             {    
                   // Lorsqu'on clique sur le bouton supprimer, il récupère la position de l'index de l'élément ciblé et le supprime
@@ -307,56 +307,205 @@ const deleteProduct = function ()
                         return object.id === myActualProduct.dataset.id && object.colors === myActualProduct.dataset.color
                   })
                    
-                  if(index > -1){
-                        getStorageProducts2.splice(index,1);
-                        
+                  if(index > -1)
+                  {
+                        getStorageProducts2.splice(index,1);  
                   }
 
-                  
                         alert('Le produit sélectionné a bien été supprimé !') 
                         myActualProduct.remove();
                         window.location.href ="cart.html";  
-                        localStorage.setItem('Produits',JSON.stringify(getStorageProducts2));
-                        
-                           
-                             
+                        localStorage.setItem('Produits',JSON.stringify(getStorageProducts2));           
             })
       }
 }
 
 deleteProduct()
-
-
-
-
 // /* ******** END OF DELETE PRODUCTS *********** */
 
-// /********* FORMULAIRE *******/
-// const firstName = document.getElementById('firstName');
-// const lastName = document.getElementById('lastName')
-// const address = document.getElementById('address');
-// const city = document.getElementById('city')
-// const email = document.getElementById('email');
-// const submit = document.getElementById('order');
 
 
-// const checkFirstName = function (){
+
+})
 
 
-//       let testRegex = RegExp("[a-z]{1,10}");
-//        const errorMsg = document.getElementById('firstNameErrorMsg');
-//       if(firstName !== testRegex ){
-//             errorMsg.innerHTML = "Veuillez saisir un prénom valide";
-//       }
+
+const myForm = document.querySelector('.cart__order__form');
+
+
+const search_params = new URLSearchParams(window.location.search)
+const localStorageCart= localStorage.getItem('Produits')
+const parsed = JSON.parse(localStorageCart)
+const testedValue = parsed.find(el => el.id)
+const productsFindId = testedValue.id
+const productId = []
+productId.push(productsFindId)
+
+  let contact = 
+  { 
+      contact:{
+             firstName: search_params.get('firstName'),
+             lastName: search_params.get('lastName'),
+             address:search_params.get('address'),
+             city:search_params.get('city'),
+             email:search_params.get('email')
+      },
+     
+      products : productId
+  }
+
+
+const requetePostVersLapi = fetch("http://localhost:3000/api/products/order",{
+      // La méthode POST sert à envoyer des données vers l'API
+      method : 'POST',
+      body:JSON.stringify(contact),
+
+      headers : {
+            'Content-Type': 'application/json'
+      },
+})
+
+
+
+
+      requetePostVersLapi.then(async(res)=>{
+
+            const numeroDeCommande = await res.json()
+             window.location.href=`confirmation.html?numeroDeCommande=${numeroDeCommande.orderId}`
+      
+           
+      })
+
+
+
+
+// Quand le formulaire est envoyé...
+myForm.addEventListener('submit',(e)=>
+{
+
+      // const produitDansLeLocalStorageParse = JSON.parse(produitDansLeLocalStorage)
+ 
+      const firstNameInput = document.getElementById('firstName')
+      const lastNameInput = document.getElementById('lastName')
+      const addressInput = document.getElementById('address')
+   
+      const cityInput = document.getElementById('city')
+      const emailInput = document.getElementById('email')
+      
+      // const submitButton = document.getElementById('order')
+   
+      let RegexName =  new RegExp(/^[a-zA-z-\s]+$/)
+      let RegexCity =  new RegExp(/^[a-zA-z-\s]+$/)
+      let RegexAdress = new RegExp(/^[a-zA-z-\s]+$/)
+      let RegexEmail = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+
+      
+         // Permet de récupérer par la suite les informations qui sont en paramètre quand le formulaire est envoyé gra^ce à .get()
+        
+              
+
+      const checkFirstName = function ()
+      {
+          const firstNameErrorMsg = document.getElementById('firstNameErrorMsg')
+
+            if(RegexName.test(firstNameInput.value) === false)
+            {
+                  firstNameErrorMsg.innerHTML = "Veuillez uniquement saisir des lettres"
+                   e.preventDefault()
+            }
+
+            else if (RegexName.test(firstNameInput.value) === true){
+                  firstNameErrorMsg.innerHTML = " ";
+            }
+      }
+  
+
+
+      const checkLastName = function()
+      {
+            const lastNameErrorMsg = document.getElementById('lastNameErrorMsg')
+
+           if(RegexName.test(lastNameInput.value) === false)
+           {
+            lastNameErrorMsg.innerHTML = "Veuillez uniquement saisir des lettres"
+            e.preventDefault()
+
+           }
+
+           else if (RegexName.test(lastNameInput.value) === true){
+                 lastNameErrorMsg.innerHTML = " ";
+           }
+
+      }
+      
+
+
+      const checkAddress = function ()
+      {
+            const addressErrorMsg = document.getElementById('addressErrorMsg')
+
+            if(RegexAdress.test(addressInput.value) === false)
+            {
+                  addressErrorMsg.innerHTML = "L'adresse saisi est incorrecte"
+                  e.preventDefault()
+            }
+
+            else if(RegexAdress.test(addressInput.value) === true){
+                  addressErrorMsg.innerHTML = "";
+            }
+            
+          
+      }
+
+
+
+      const checkCity = function () 
+      {
+            const cityErrorMsg= document.getElementById('cityErrorMsg')
+
+            if(RegexCity.test(cityInput.value) === false)
+            {
+                  cityErrorMsg.innerHTML = "Veuillez saisir un nom de ville correcte"
+                  e.preventDefault()
+            }
+
+            else if(RegexCity.test(cityInput.value) === true){
+                  cityErrorMsg.innerHTML = "";
+            }
+     
+          
+      }
 
      
-// }
 
-// checkFirstName()
+      const checkEmail = function () 
+      {
+            const emailErrorMsg= document.getElementById('emailErrorMsg')
+
+            if(RegexEmail.test(emailInput.value) === false)
+            {
+                  emailErrorMsg.innerHTML = "Veuillez saisir une adresse mail correcte"
+                  e.preventDefault()
+            }
+
+            else if(RegexCity.test(emailInput.value) === true){
+                  emailErrorMsg.innerHTML = "";
+            }
+    
+      }
+
+      checkFirstName()
+      checkLastName()
+      checkAddress()
+      checkCity()  
+      checkEmail()  
+
+      
+      
+}) 
+
+
+
 // /**END OF FORMULAIRE */
- })
-
-// END OF PROMISE
-
 
 
