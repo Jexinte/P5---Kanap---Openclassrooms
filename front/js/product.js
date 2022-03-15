@@ -123,7 +123,7 @@ connection.then(response =>
           
            
             localStorage.setItem('Produits',JSON.stringify(products));
-            // Once the product is add , empty 
+            
             //  products = [];
         } 
         else
