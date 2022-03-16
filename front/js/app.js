@@ -2,7 +2,7 @@
 const connection = fetch ('http://localhost:3000/api/products')
 
 /* *********CONNECTION*********** */
-connection.then((response) => {
+connection.then(response => {
     
     if(response.ok){
         return response.json();
@@ -19,52 +19,57 @@ connection.then((response) => {
 .then((jsonObject)=>{
 
     // Remove the first link replaced later
-    const FIRSTLINK = document.querySelector("#items > a");
-    FIRSTLINK.remove();
+    const firstLink = document.querySelector("#items > a");
+    firstLink.remove();
     
     
    
     // Built to create new element
-   
+    const getArticles = function (allProducts){
 
+        
         // Loop to get all json elements
-            for(const DATA of jsonObject)
+            for(const data of allProducts )
             {
                 
                 // Targeting
-                const TARGETINGITEMS = document.getElementById('items');
+                const targetingItems = document.getElementById('items');
                 
                 // Creating Elements
                 
-                const CREATEIMGPRODUCT = document.createElement('img');
-                const CREATETITLEPRODUCT = document.createElement('h3');
-                const CREATEPARAGRAPHPRODUCT = document.createElement('p');
-                const CREATINGALINK = document.createElement('a');
-                const CREATEARTICLE = document.createElement('article');
-
+                const createImgProduct = document.createElement('img');
+                const createTitleProduct = document.createElement('h3');
+                const createParagraphProduct = document.createElement('p');
+                const creatingALink = document.createElement('a');
+                const createArticle = document.createElement('article');
+                
                 
                 
                 // Nesting elements
-                TARGETINGITEMS.appendChild(CREATINGALINK);
-                CREATINGALINK.appendChild(CREATEARTICLE);
-                CREATEARTICLE.appendChild(CREATEIMGPRODUCT);
-                CREATEARTICLE.appendChild(CREATETITLEPRODUCT);
-                CREATEARTICLE.appendChild(CREATEPARAGRAPHPRODUCT);
-
+                targetingItems.appendChild(creatingALink);
+                creatingALink.appendChild(createArticle);
+                createArticle.appendChild(createImgProduct);
+                createArticle.appendChild(createTitleProduct);
+                createArticle.appendChild(createParagraphProduct);
+                
                 // Giving a classname to some elements created before
-                CREATETITLEPRODUCT.className = "productName";
-                CREATEPARAGRAPHPRODUCT.className = "productDescription";
-
+                createTitleProduct.className = "productName";
+                createParagraphProduct.className = "productDescription";
+                
                 // Insert of all products on homepage
                 
-                CREATEIMGPRODUCT.src = `${DATA.imageUrl}`;
-                CREATEIMGPRODUCT.alt = `${DATA.altTxt}`;
-                CREATETITLEPRODUCT.innerHTML = `${DATA.name}`;
-                CREATEPARAGRAPHPRODUCT.innerHTML = `${DATA.description}`;
-
+                createImgProduct.src = `${data.imageUrl}`;
+                createImgProduct.alt = `${data.altTxt}`;
+                createTitleProduct.innerHTML = `${data.name}`;
+                createParagraphProduct.innerHTML = `${data.description}`;
+                
                 // This is made to recover a single product for each link on product page
-                CREATINGALINK.href = `./product.html?id=${DATA._id}`;
+                creatingALink.href = `./product.html?id=${data._id}`;
                 
             }
-
-    })
+        }
+        
+        getArticles(jsonObject)
+            
+        })
+        

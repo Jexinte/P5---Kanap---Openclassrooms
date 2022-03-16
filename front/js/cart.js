@@ -42,13 +42,9 @@ const displayOfProducts =  function displayOfProducts()
       conversion.forEach(storageData =>
       {
       // Convert quantity value on localstorage to integer
-      const parse_Quantity = parseInt(storageData.quantity);
-
-      // Store API DATA
-      let jsonData = myProducts;
-
+      // const parse_Quantity = parseInt(storageData.quantity);
       // Compare the id of each cart product with the id store in API DATA
-      const inCaseOfSameId = jsonData.find(element => storageData.id === element._id);
+      const inCaseOfSameId = myProducts.find(api => storageData.id === api._id);
 
 
 // ID MATCH CREATE STRUCTURE OF EACH PRODUCT AND INSERT THEM WITH INFORMATIONS ASSOCIATED WITH
@@ -118,7 +114,7 @@ const displayOfProducts =  function displayOfProducts()
                         cart__Item_Content_Settings_Quantity_Input.setAttribute('name','itemQuantity');
                         cart__Item_Content_Settings_Quantity_Input.setAttribute('min',1);
                         cart__Item_Content_Settings_Quantity_Input.setAttribute('max',100);
-                        cart__Item_Content_Settings_Quantity_Input.setAttribute('value',`${parse_Quantity}`);
+                        cart__Item_Content_Settings_Quantity_Input.setAttribute('value',`${storageData.quantity}`);
                         cart__Item_Content_Settings_Quantity.appendChild(cart__Item_Content_Settings_Quantity_Input);
                   // END OF SETTINGS QUANTITY
 
@@ -134,8 +130,6 @@ const displayOfProducts =  function displayOfProducts()
                   // END OF DELETE BUTTON
 
             }
-
-
 });
 
 }
@@ -314,6 +308,7 @@ productId.push(productsFindId)
 
 /******** END OF LOOKING FOR ID *********/
 
+
 /******** CONDITIONS REQUESTED BY THE BACK-END ********/
 let contact = 
 { 
@@ -379,7 +374,7 @@ let RegexEmail = new RegExp(/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/)
 
             if(RegexName.test(firstNameInput.value) === false)
             {
-                  firstNameErrorMsg.innerHTML = "Veuillez uniquement saisir des lettres"
+                  firstNameErrorMsg.innerHTML = "Veuillez uniquement saisir des lettres, les chiffres et symboles ne sont pas acceptés"
                   e.preventDefault()
             }
 
@@ -397,7 +392,7 @@ let RegexEmail = new RegExp(/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/)
 
             if(RegexName.test(lastNameInput.value) === false)
             {
-                  lastNameErrorMsg.innerHTML = "Les symboles ne sont pas acceptés"
+                  lastNameErrorMsg.innerHTML = "Veuillez uniquement saisir des lettres, les chiffres et les symboles ne sont pas acceptés"
                   e.preventDefault()
             }
 
