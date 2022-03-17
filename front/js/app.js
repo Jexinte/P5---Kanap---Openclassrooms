@@ -1,4 +1,5 @@
 
+
 const connection = fetch ('http://localhost:3000/api/products')
 
 /* *********CONNECTION*********** */
@@ -22,8 +23,6 @@ connection.then(response => {
     const firstLink = document.querySelector("#items > a");
     firstLink.remove();
     
-    
-   
     // Built to create new element
     const getArticles = function (allProducts){
 
@@ -72,4 +71,5 @@ connection.then(response => {
         getArticles(jsonObject)
             
         })
+        
         
