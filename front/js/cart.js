@@ -153,7 +153,6 @@ const calculateOfTotalQuantityAndPriceOfAllTheProducts =  function ()
       let totalQuantityOfProducts = 0
       let totalPriceOfProducts = 0
 
-
       for (const product of productsJson)
       {
             const idMatches = myProducts.find(api => product.id === api._id);
@@ -169,7 +168,7 @@ const calculateOfTotalQuantityAndPriceOfAllTheProducts =  function ()
       // When the calculation is over display it
       totalQuantity.innerHTML = totalQuantityOfProducts
       totalPrice.innerHTML = totalPriceOfProducts
-      }
+ }
 
 calculateOfTotalQuantityAndPriceOfAllTheProducts()   
 
@@ -180,114 +179,50 @@ calculateOfTotalQuantityAndPriceOfAllTheProducts()
 
 const getChangeItemsQuantity = function ()
 {
-      let cart__item = document.querySelectorAll('.cart__item');
+      // let cart__item = document.querySelectorAll('.cart__item');
       let change = {};
       let inputQuantity = document.querySelectorAll('.itemQuantity')
-      inputQuantity.forEach((element,index) =>
+     
+      inputQuantity.forEach((element) =>
       {
-            
-           
-           
-
             element.addEventListener("change",(itemQuantity) => 
             {
-                  let article = element.closest('article');
-           
-                  change.id = article.dataset.id;
-                  change.value = itemQuantity.target.value;
-                  // console.log(change)
-                  updatePriceQuantityCart(change);    
-            }) 
-          
+                  if(element.value >= 1 && element.value <= 100){
+
+                        let article = element.closest('article');
+                        change.id = article.dataset.id;
+                        change.color = article.dataset.color
+                        change.value = itemQuantity.target.value;
+                        updatePriceQuantityCart(change);  
+                           
+                  }
+
+                  else if(element.value > 100){
+                        alert('Veuillez saisir une quantité entre 1 et 100')
+                  }
+                  
+            })  
       })
-      // return change;
 }
 getChangeItemsQuantity()
 
-// Add up the price of each product 
-const calculateOfTotalPriceOfAllProducts  = function () 
-{
-      const price = document.querySelectorAll('.cart__item__content__description > p + p')
-      const totalPrice = document.querySelector('#totalPrice')
-     
 
-      let totalPriceOfAllProducts = 0
-      quantityOfTheProduct.forEach((element =>{
-
-            for (const priceDisplayOnCartPage of price)
-            {
-                  // Convert it to integer 
-                  let priceOfEachProduct = parseInt(priceDisplayOnCartPage.textContent)
-                  
-                  // Save total amount
-                  totalPriceOfAllProducts += priceOfEachProduct * element.value
-                  console.log(totalPriceOfAllProducts)
-            }
-      }))
-
-      // When the calculation is over display it
-      totalPrice.innerHTML = totalPriceOfAllProducts
-}
-// calculateOfTotalPriceOfAllProducts()
 
 /* ******** END OF CALCULATEOFTOTALPRICEOFALLPRODUCTS *********** */
 
 
 /* ******** UPDATE QUANTITY *********** */
 
-/* This function detect if a quantity is changed if yes then it pop up an alert saying that the change made is done and refresh the cart page to update the total */
+
 const updatePriceQuantityCart = function(change) 
 {
-
-      // let inputQuantity = document.querySelectorAll('.itemQuantity')
+      
        let localStorageProducts = localStorage.getItem('Produits')
-       let getStorageProducts = JSON.parse(localStorageProducts)
-      // let change = getChangeItemsQuantity();
-       console.log(change)
-      getStorageProducts.find(element => element.id === change.id ).quantity = change.value;
+       let getStorageProducts = JSON.parse(localStorageProducts);
+       // Change color have been added because when quantity is changed it wasn't not a the right product and now it's fixed
+            getStorageProducts.find(element => element.id === change.id && element.colors === change.color).quantity = change.value;
       localStorage.setItem('Produits',JSON.stringify(getStorageProducts))
      calculateOfTotalQuantityAndPriceOfAllTheProducts()  
-      
-      // for (let i = 0; i < inputQuantity.length; i++)
-      // {
-
-      // // Link to the right article
-      // let myActualQuantity = inputQuantity[i].closest('article')
-    
-
-      // myActualQuantity.addEventListener("change",() =>
-      // {
-      // // Loop throught localStorage 
-      // getStorageProducts.forEach(products =>
-      // {
-      //            let arr = []
-      //            arr.push(products)
-                
-      //       let IdAndColorsInLocalStorageMatchesWithDataset = arr.find(el => el.id === myActualQuantity.dataset.id && el.colors === myActualQuantity.dataset.color && inputQuantity[i].value >=1 && inputQuantity[i].value <= 100)
-
-      //       let quantityIsTooHigh = arr.find(el => el.id === myActualQuantity.dataset.id && el.colors === myActualQuantity.dataset.color && inputQuantity[i].value > 100)
-      //       // Matches 
-      //       if(IdAndColorsInLocalStorageMatchesWithDataset)
-      //       {                              
-      //             products.quantity = inputQuantity[i].value;
-                 
-      //             // alert('La quantité du produit a bien été augmenté !')
-      //              window.location.href="cart.html"
-      //       }
-      //       else if(quantityIsTooHigh)
-      //       {
-      //       alert('Veuillez saisir une quantité entre 1 et 100')
-      //       } 
-
-           
-      //       localStorage.setItem('Produits',JSON.stringify(getStorageProducts))
-
-      // })
-      // //   END OF THE SECOND LOOP
-
-      // })
-
-      // }
 } 
  
 
@@ -304,7 +239,7 @@ const deleteProduct = function ()
 
       let deleteButton = document.querySelectorAll('.deleteItem')
 
-      let localStorageProducts2 = localStorage.getItem('Produits')
+      let localStorageProducts = localStorage.getItem('Produits')
       // Loop to get all buttons
       for (let i = 0; i < deleteButton.length; i++)
       {
@@ -312,26 +247,30 @@ const deleteProduct = function ()
             let buttons = deleteButton[i]
 
             // Link each button to his article
-            let myActualProduct = deleteButton[i].closest('article')
-            let getStorageProducts2 = JSON.parse(localStorageProducts2) 
+            let article = deleteButton[i].closest('article')
+            let productsInLocalStorage = JSON.parse(localStorageProducts) 
 
             buttons.addEventListener("click",() =>
             {    
-                  const index = getStorageProducts2.findIndex(object =>{
-                  return object.id === myActualProduct.dataset.id && object.colors === myActualProduct.dataset.color
-            })
+                        const indexOfTheProductInTheLocalStorage = productsInLocalStorage.findIndex(productsLocalStorage =>{
+                        return productsLocalStorage.id === article.dataset.id && productsLocalStorage.colors === article.dataset.color
+                  })
 
-            if(index > -1)
-            {
-             getStorageProducts2.splice(index,1);  
-            }
+                  if(indexOfTheProductInTheLocalStorage > -1)
+                  {
+                  productsInLocalStorage.splice(indexOfTheProductInTheLocalStorage,1);  
+                  }
 
-                  alert('Le produit sélectionné a bien été supprimé !') 
-                  myActualProduct.remove()
-                  window.location.href ="cart.html"
-                  localStorage.setItem('Produits',JSON.stringify(getStorageProducts2))      
+                        
+                        article.remove()
+                        // alert('Le produit sélectionné a bien été supprimé')
+                        localStorage.setItem('Produits',JSON.stringify(productsInLocalStorage)) 
+                        window.location.href ="cart.html"
             })
+           
+            
       }
+      
 }
 
 deleteProduct()
@@ -346,13 +285,13 @@ deleteProduct()
 /******** LOOKING FOR ID *********/
 
 const search_params = new URLSearchParams(window.location.search)
-const localStorageCart= localStorage.getItem('Produits')
-const parsed = JSON.parse(localStorageCart)
-const testedValue = parsed.find(el => el.id)
-const productsFindId = testedValue.id
+const allProducts= localStorage.getItem('Produits')
+const jsonProducts = JSON.parse(allProducts)
+const getIdOfTheProductInJsonProducts = jsonProducts.find(el => el.id)
+const productsId = getIdOfTheProductInJsonProducts.id
 
-const productId = []
-productId.push(productsFindId)
+const arrayOfProductId = []
+arrayOfProductId.push(productsId)
 
 /******** END OF LOOKING FOR ID *********/
 
