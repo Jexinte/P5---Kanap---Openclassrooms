@@ -43,7 +43,7 @@ const getOfProductsInLocalStorage =  function getOfProductsInLocalStorage()
       {
      
       // Compare the id of each cart product with the id store in API DATA
-      const idMatches = myProducts.find(api => storageData.id === api._id);
+      const idMatches = myProducts.find(productsInapi => storageData.id === productsInapi._id);
 
 
 // ID MATCH CREATE STRUCTURE OF EACH PRODUCT AND INSERT THEM WITH INFORMATIONS ASSOCIATED WITH
@@ -155,7 +155,7 @@ const calculateOfTotalQuantityAndPriceOfAllTheProducts =  function ()
 
       for (const product of productsJson)
       {
-            const idMatches = myProducts.find(api => product.id === api._id);
+            const idMatches = myProducts.find(productInApi => product.id === productInApi._id);
             
             // Convert string quantity to integer 
             let quantityOfLocalStorage = parseInt(product.quantity);
@@ -238,11 +238,13 @@ const deleteProduct = function ()
 {
 
       let deleteButton = document.querySelectorAll('.deleteItem')
-
+      
       let localStorageProducts = localStorage.getItem('Produits')
       // Loop to get all buttons
       for (let i = 0; i < deleteButton.length; i++)
       {
+
+           
             // More clear for the syntax
             let buttons = deleteButton[i]
 
@@ -252,25 +254,19 @@ const deleteProduct = function ()
 
             buttons.addEventListener("click",() =>
             {    
-                        const indexOfTheProductInTheLocalStorage = productsInLocalStorage.findIndex(productsLocalStorage =>{
-                        return productsLocalStorage.id === article.dataset.id && productsLocalStorage.colors === article.dataset.color
-                  })
+                        const indexOfTheProductInTheLocalStorage = productsInLocalStorage.findIndex(productsLocalStorage =>
+                        {
+                         return productsLocalStorage.id === article.dataset.id && productsLocalStorage.colors === article.dataset.color
+                        })
 
-                  if(indexOfTheProductInTheLocalStorage > -1)
-                  {
-                  productsInLocalStorage.splice(indexOfTheProductInTheLocalStorage,1);  
-                  }
-
-                        
-                        article.remove()
-                        // alert('Le produit sélectionné a bien été supprimé')
+                        productsInLocalStorage.splice(indexOfTheProductInTheLocalStorage,1); 
                         localStorage.setItem('Produits',JSON.stringify(productsInLocalStorage)) 
-                        window.location.href ="cart.html"
+                        window.location.href ="cart.html"     
             })
            
-            
+           
       }
-      
+  
 }
 
 deleteProduct()
@@ -308,7 +304,7 @@ let contact =
       email:search_params.get('email')
       },
 
-      products : productId
+      products : arrayOfProductId
 }
 
 /******** END OF CONDITIONS REQUESTED BY THE BACK-END ********/
