@@ -1,22 +1,19 @@
-
-/* *********CONNECTION*********** */
-
+/* *********CONNECTION TO THE API*********** */
 const connection = fetch ('http://localhost:3000/api/products')
 
-// 
-connection.then(response =>
-{
 
-    if(response.ok)
-    {
-     return response.json();
+connection.then(response => {
+    
+    if(response.ok){
+        return response.json();
     }
 
-    else
-    {
-        console.log('Connexion to the API failed !')
+    else{
+        console.log('Connection failed');
     }
+    
 })
+
 /* ********END OF CONNECTION*********** */
 
 .then(myProduct =>
@@ -81,9 +78,9 @@ displayOfTheProduct(myProduct)
 
         
             let getMyProducts = localStorage.getItem('Produits')
-            let products
+            let products;
             
-            // As getMyProducts have no values on it return an empty array
+         
             if(getMyProducts === null)
             {
                 products = []
@@ -128,7 +125,7 @@ displayOfTheProduct(myProduct)
            
             localStorage.setItem('Produits',JSON.stringify(products))
             
-            //  products = []
+          
         } 
         else
         {

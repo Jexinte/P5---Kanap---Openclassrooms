@@ -1,8 +1,8 @@
 
-
+/* *********CONNECTION TO THE API*********** */
 const connection = fetch ('http://localhost:3000/api/products')
 
-/* *********CONNECTION*********** */
+
 connection.then(response => {
     
     if(response.ok){
@@ -17,14 +17,14 @@ connection.then(response => {
 
 /* ********END OF CONNECTION*********** */
 
-.then((jsonObject)=>{
+.then((products)=>{
 
-    // Remove the first link replaced later
-    const firstLink = document.querySelector("#items > a");
-    firstLink.remove();
+    
+    const baseStructureOfProduct = document.querySelector("#items > a");
+    baseStructureOfProduct.remove();
     
     // Built to create new element
-    const getArticles = function (allProducts){
+    const getProducts = function (allProducts){
 
         
         // Loop to get all json elements
@@ -68,7 +68,7 @@ connection.then(response => {
             }
         }
         
-        getArticles(jsonObject)
+        getProducts(products)
             
         })
         

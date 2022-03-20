@@ -159,6 +159,7 @@ const calculateOfTotalQuantityAndPriceOfAllTheProducts =  function ()
             
             // Convert string quantity to integer 
             let quantityOfLocalStorage = parseInt(product.quantity);
+            console.log(quantityOfLocalStorage)
             let priceOfLocalStorage = parseInt(idMatches.price * product.quantity) 
             // Add total amount
             totalQuantityOfProducts += quantityOfLocalStorage
@@ -175,11 +176,10 @@ calculateOfTotalQuantityAndPriceOfAllTheProducts()
 /* ******** END OF CALCULATEOFTOTALQUANTITYOFALLPRODUCTS *********** */     
 
 
-/* ******** CALCULATEOFTOTALPRICEOFALLPRODUCTS *********** */
+/* ******** GETCHANGEITEMSQUANTITY *********** */
 
 const getChangeItemsQuantity = function ()
 {
-      // let cart__item = document.querySelectorAll('.cart__item');
       let change = {};
       let inputQuantity = document.querySelectorAll('.itemQuantity')
      
@@ -208,10 +208,10 @@ getChangeItemsQuantity()
 
 
 
-/* ******** END OF CALCULATEOFTOTALPRICEOFALLPRODUCTS *********** */
+/* ******** END OF GETCHANGEITEMSQUANTITY *********** */
 
 
-/* ******** UPDATE QUANTITY *********** */
+/* ******** UPDATEPRICEQUANTITYCART *********** */
 
 
 const updatePriceQuantityCart = function(change) 
@@ -219,7 +219,6 @@ const updatePriceQuantityCart = function(change)
       
        let localStorageProducts = localStorage.getItem('Produits')
        let getStorageProducts = JSON.parse(localStorageProducts);
-       // Change color have been added because when quantity is changed it wasn't not a the right product and now it's fixed
             getStorageProducts.find(element => element.id === change.id && element.colors === change.color).quantity = change.value;
       localStorage.setItem('Produits',JSON.stringify(getStorageProducts))
      calculateOfTotalQuantityAndPriceOfAllTheProducts()  
@@ -227,7 +226,7 @@ const updatePriceQuantityCart = function(change)
  
 
 
-// /* ******** END OF UPDATE QUANTITY *********** */
+// /* ******** END OF UPDATEPRICEQUANTITYCART *********** */
 
 
 // /* ******** DELETE PRODUCTS *********** */
@@ -243,8 +242,6 @@ const deleteProduct = function ()
       // Loop to get all buttons
       for (let i = 0; i < deleteButton.length; i++)
       {
-
-           
             // More clear for the syntax
             let buttons = deleteButton[i]
 
@@ -254,19 +251,26 @@ const deleteProduct = function ()
 
             buttons.addEventListener("click",() =>
             {    
-                        const indexOfTheProductInTheLocalStorage = productsInLocalStorage.findIndex(productsLocalStorage =>
-                        {
-                         return productsLocalStorage.id === article.dataset.id && productsLocalStorage.colors === article.dataset.color
-                        })
+                        const matches = productsInLocalStorage.find( productsInLocalStorage => productsInLocalStorage.id === article.dataset.id && productsInLocalStorage.colors === article.dataset.color)
+                        if(matches){
+                              const indexOfTheProductInTheLocalStorage = productsInLocalStorage.findIndex(productsLocalStorage =>
+                                    {
+                                     return productsLocalStorage.id === article.dataset.id && productsLocalStorage.colors === article.dataset.color
+                                    })
 
-                        productsInLocalStorage.splice(indexOfTheProductInTheLocalStorage,1); 
-                        localStorage.setItem('Produits',JSON.stringify(productsInLocalStorage)) 
-                        window.location.href ="cart.html"     
-            })
-           
-           
+                                    
+                                    productsInLocalStorage.splice(indexOfTheProductInTheLocalStorage,1); 
+                                    localStorage.setItem('Produits',JSON.stringify(productsInLocalStorage)) 
+                                     
+                                    window.location.href="cart.html"
+                                  
+                                    
+                         }
+                         else{
+                               console.log('Pas de correspondance')
+                         }        
+            })    
       }
-  
 }
 
 deleteProduct()
@@ -283,17 +287,19 @@ deleteProduct()
 const search_params = new URLSearchParams(window.location.search)
 const allProducts= localStorage.getItem('Produits')
 const jsonProducts = JSON.parse(allProducts)
-const getIdOfTheProductInJsonProducts = jsonProducts.find(el => el.id)
-const productsId = getIdOfTheProductInJsonProducts.id
+let arrayOfId = []
+for (const i of jsonProducts) {
+      arrayOfId.push(i.id)
+}
 
-const arrayOfProductId = []
-arrayOfProductId.push(productsId)
+let idOfProducts =arrayOfId;
+
 
 /******** END OF LOOKING FOR ID *********/
 
 
 /******** CONDITIONS REQUESTED BY THE BACK-END ********/
-let contact = 
+let whatTheBackEndExpects = 
 { 
       contact:
       {
@@ -304,8 +310,9 @@ let contact =
       email:search_params.get('email')
       },
 
-      products : arrayOfProductId
+      products : idOfProducts
 }
+
 
 /******** END OF CONDITIONS REQUESTED BY THE BACK-END ********/
 
@@ -313,7 +320,7 @@ let contact =
 const requetePostVersLapi = fetch("http://localhost:3000/api/products/order",
 {
       method : 'POST',
-      body:JSON.stringify(contact),
+      body:JSON.stringify(whatTheBackEndExpects),
       headers :{'Content-Type': 'application/json'},
 })
 /******** POST REQUEST TO BACK-END ************/
@@ -323,11 +330,14 @@ const requetePostVersLapi = fetch("http://localhost:3000/api/products/order",
 requetePostVersLapi.then(async(res)=>
 {     
       let numeroDeCommande = await res.json()
+      
       // If the request is accepted and the form send then redirect to confirmation.html
       if(res.status == 201)
       {
-      window.location.href=`confirmation.html?orderId=${numeroDeCommande.orderId}`
+         window.location.href=`confirmation.html?orderId=${numeroDeCommande.orderId}`
       }
+
+     
 })
 /********END OF RECOVER ORDER ID *************/
 
@@ -357,7 +367,7 @@ let RegexEmail = new RegExp(/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/)
 
             if(RegexName.test(firstNameInput.value) === false)
             {
-                  firstNameErrorMsg.innerHTML = "Veuillez uniquement saisir des lettres, les chiffres et symboles ne sont pas acceptés"
+                  firstNameErrorMsg.innerHTML = "Veuillez uniquement saisir des lettres avec tirets si nécessaire, les chiffres et symboles ne sont pas acceptés"
                   e.preventDefault()
             }
 
@@ -375,7 +385,7 @@ let RegexEmail = new RegExp(/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/)
 
             if(RegexName.test(lastNameInput.value) === false)
             {
-                  lastNameErrorMsg.innerHTML = "Veuillez uniquement saisir des lettres, les chiffres et les symboles ne sont pas acceptés"
+                  lastNameErrorMsg.innerHTML = "Veuillez uniquement saisir des lettres avec tirets si nécessaire, les chiffres et les symboles ne sont pas acceptés"
                   e.preventDefault()
             }
 
@@ -433,7 +443,7 @@ let RegexEmail = new RegExp(/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/)
 
             if(RegexEmail.test(emailInput.value) === false)
             {
-                  emailErrorMsg.innerHTML = "Veuillez saisir une adresse mail correcte"
+                  emailErrorMsg.innerHTML = "Veuillez saisir une adresse mail valide"
                   e.preventDefault()
             }
 
