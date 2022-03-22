@@ -17,21 +17,17 @@ connection.then(response => {
 
 /* ********END OF CONNECTION*********** */
 
-.then((products)=>{
-
-    
+.then((products)=>
+{
     const baseStructureOfProduct = document.querySelector("#items > a");
     baseStructureOfProduct.remove();
     
     // Built to create new element
-    const getProducts = function (allProducts){
-
-        
-        // Loop to get all json elements
+    const getProducts = function (allProducts)
+    {
+     
             for(const data of allProducts )
-            {
-                
-                // Targeting
+            {         
                 const targetingItems = document.getElementById('items');
                 
                 // Creating Elements
@@ -41,9 +37,7 @@ connection.then(response => {
                 const createParagraphProduct = document.createElement('p');
                 const creatingALink = document.createElement('a');
                 const createArticle = document.createElement('article');
-                
-                
-                
+
                 // Nesting elements
                 targetingItems.appendChild(creatingALink);
                 creatingALink.appendChild(createArticle);
@@ -54,8 +48,6 @@ connection.then(response => {
                 // Giving a classname to some elements created before
                 createTitleProduct.className = "productName";
                 createParagraphProduct.className = "productDescription";
-                
-                // Insert of all products on homepage
                 
                 createImgProduct.src = `${data.imageUrl}`;
                 createImgProduct.alt = `${data.altTxt}`;
@@ -69,7 +61,6 @@ connection.then(response => {
         }
         
         getProducts(products)
-            
-        })
+})
         
         

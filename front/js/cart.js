@@ -200,7 +200,7 @@ const getChangeItemsQuantity = function ()
                   else if(element.value > 100){
                         alert('Veuillez saisir une quantité entre 1 et 100')
                   }
-                  
+                  console.log(change)
             })  
       })
 }
@@ -265,10 +265,7 @@ const deleteProduct = function ()
                                     window.location.href="cart.html"
                                   
                                     
-                         }
-                         else{
-                               console.log('Pas de correspondance')
-                         }        
+                         }      
             })    
       }
 }

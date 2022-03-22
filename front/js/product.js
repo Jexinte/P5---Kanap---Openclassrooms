@@ -106,7 +106,7 @@ displayOfTheProduct(myProduct)
             {
                 alert('Votre article a bien été ajouté au panier !')
                    // Then update the quantity in the cart 
-                InCaseOfSameValues.quantity++
+                InCaseOfSameValues.quantity = quantity.value
                 
             }
 
