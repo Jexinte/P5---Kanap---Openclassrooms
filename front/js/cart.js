@@ -159,7 +159,7 @@ const calculateOfTotalQuantityAndPriceOfAllTheProducts =  function ()
             
             // Convert string quantity to integer 
             let quantityOfLocalStorage = parseInt(product.quantity);
-            console.log(quantityOfLocalStorage)
+           
             let priceOfLocalStorage = parseInt(idMatches.price * product.quantity) 
             // Add total amount
             totalQuantityOfProducts += quantityOfLocalStorage
@@ -200,7 +200,7 @@ const getChangeItemsQuantity = function ()
                   else if(element.value > 100){
                         alert('Veuillez saisir une quantité entre 1 et 100')
                   }
-                  console.log(change)
+               
             })  
       })
 }
@@ -257,20 +257,22 @@ const deleteProduct = function ()
                                     {
                                      return productsLocalStorage.id === article.dataset.id && productsLocalStorage.colors === article.dataset.color
                                     })
-
+                                   
                                     
-                                    productsInLocalStorage.splice(indexOfTheProductInTheLocalStorage,1); 
-                                    localStorage.setItem('Produits',JSON.stringify(productsInLocalStorage)) 
-                                     
-                                    window.location.href="cart.html"
+                                     productsInLocalStorage.splice(indexOfTheProductInTheLocalStorage,1); 
+                                     localStorage.setItem('Produits',JSON.stringify(productsInLocalStorage)) 
+                                    
                                   
-                                    
+                                    window.location.href="cart.html"
                          }      
             })    
       }
+      
+
 }
 
 deleteProduct()
+
 // /* ******** END OF DELETE PRODUCTS *********** */
 
 
@@ -331,7 +333,7 @@ requetePostVersLapi.then(async(res)=>
       // If the request is accepted and the form send then redirect to confirmation.html
       if(res.status == 201)
       {
-         window.location.href=`confirmation.html?orderId=${numeroDeCommande.orderId}`
+            // window.location.href=`confirmation.html?orderId=${numeroDeCommande.orderId}`
       }
 
      

@@ -96,29 +96,26 @@ displayOfTheProduct(myProduct)
         // If the identifier and the color are the same
         const InCaseOfSameValues = products.find(element => element.id === search_Params.get('id') 
         && colorOfTheProduct[colorOfTheProduct.selectedIndex].text === element.colors)
+        let numberOfArticles = parseInt(quantity.value)
 
-      
         if(InCaseOfSameValues)
         {
-            
-            // Increment the quantity if the number of articles is lower than 100
-            if(InCaseOfSameValues.quantity < 100)
-            {
-                alert('Votre article a bien été ajouté au panier !')
-                   // Then update the quantity in the cart 
-                InCaseOfSameValues.quantity = quantity.value
+                if(InCaseOfSameValues.quantity < 100)
+                {
+                    InCaseOfSameValues.quantity += numberOfArticles
+                }
                 
-            }
-
-        else{
-                alert("Le nombre d'articles a été atteint !")
-            }
-    }
+                if(InCaseOfSameValues.quantity > 100)
+                {
+                    InCaseOfSameValues.quantity = 100
+                    alert("Le nombre d'article maximum a été atteint ")
+                }
+        }
 
         else
         {
             alert('Votre article a bien été ajouté au panier !')
-        products.push({id:search_Params.get('id'),colors:colorOfTheProduct[colorOfTheProduct.selectedIndex].text,quantity:quantity.value})
+        products.push({id:search_Params.get('id'),colors:colorOfTheProduct[colorOfTheProduct.selectedIndex].text,quantity:parseInt(quantity.value)})
         }
        
           
